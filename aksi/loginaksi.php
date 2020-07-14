@@ -1,20 +1,20 @@
 <?php
 
 session_start();
-include('../view/koneksi.php');
+include('../../view/koneksi.php');
 
-$koneksi = mysqli_connect("localhost","root","","furniture");
 $username = $_POST['Username'];
 $password = $_POST['Password'];
 
-$sql = "select * from register where username ='$username' && password='$password';";
-$user = mysqli_query($koneksi,$sql);
+$sql = mysqli_query ($koneksi, "select * from user where username ='$username' and password='$password'");
 
-if (mysqli_num_rows($register) > 0 ) {
+$cek = mysqli_num_rows($sql);
 
-	$_SESSION['userdata']['username'] = $username;
-	$_SESSION['userdata']['role'] = '';
-	header('location:../dashboard.html');
+if ($cek > 0 ) {
+	$_SESSION['username']= $username;
+	$_SESSION['status']='login';
+	header('location:../view/index.php');
 }else{
+	header('location:../view/index.php');
 	echo 'login gagal';
 }
